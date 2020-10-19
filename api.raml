@@ -1,0 +1,59 @@
+#%RAML 1.0
+title: New API
+/deleteprod:
+  delete:
+    body:
+      application/json:
+        type: object
+    responses:
+      "200":
+        description: "Deleted the prod "
+    queryParameters:
+      id?:
+        example: Example
+        type: string
+      retailItemId?:
+        example: Example
+        type: string
+/postprod:
+  post:
+    responses:
+      "200":
+        description: Added the sample prod
+        body:
+          application/json:
+            type: SAMPLE-DATA
+    body:
+      application/json:
+        type: SAMPLE-DATA
+/getallprod:
+  get:
+    responses:
+      "200":
+        description: Successful retrieved sample data
+        body:
+          application/json:
+            items:
+              type: SAMPLE-DATA
+    securedBy: []
+types:
+  SAMPLE-DATA:
+    description: "Sample data "
+    example:
+      strict: true
+      value:
+        GTINS: 8718906757066
+        description: ggi
+    type: object
+/getspecificproduct:
+  post:
+    body:
+      application/json:
+        type: SAMPLE-DATA
+    responses:
+      "200":
+        description: Method to Get details of a specific product.
+        body:
+          application/json:
+            type: SAMPLE-DATA
+    securedBy: []
