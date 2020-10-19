@@ -1,0 +1,68 @@
+
+
+{
+	"query" : "SELECT * FROM  p where CONTAINS (p.description,@descvar) OR p.globalTradeItemNumbers = @gtinsvar",
+	"parameters": [  
+                 {  
+                        "name" : "@descvar",
+                        "value": payload.description
+                   },
+                   {
+                   	    "name" : "@gtinsvar",
+                        "value": payload.GTINS
+                   }  ]
+}
+
+
+*******************************************************************************************************
+
+https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/docs
+
+*****************************************EDITED NEW****************************************
+
+
+
+##############################EDITED###########################
+
+{
+	"query" : "SELECT * FROM  p where CONTAINS (p.description,@descvar) OR (p.globalTradeItemNumbers = @gtinsvar) OR (@givendate BETWEEN p.startDateValid AND p.endDateValid)",
+	"parameters": [  
+                 {  
+                        "name" : "@descvar", "value": payload.description
+                 },
+                 {
+                   	 "name" : "@gtinsvar", "value": payload.GTINS
+                 },
+                 {
+                 	 "name" : "@givendate", "value": payload.givendate
+                 }
+	              ]
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+output application/java
+---
+{
+	"Authorization" : vars.cosmosHeader.authKey,
+	"Accept" : "application/json",
+	"x-ms-version" : "2016-07-11",
+	"x-ms-documentdb-partitionkey" : '["' ++ payload.retailItemId ++ '"]',
+	"Content-Type" : "application/json",
+	"x-ms-date" : vars.cosmosHeader.serverDateTime
+}
+
+*****************************************************************
+In mule-artifact json,
+{
+  "minMuleVersion": "4.3.0-20200824"
+}
+
+In Pom.xml
+==>
+
+<app.runtime>4.3.0-20200824</app.runtime>
+
+******************************************************
+
+Worked when i chnaged the host to 0.0.0.0 in Config file
