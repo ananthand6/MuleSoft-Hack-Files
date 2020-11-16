@@ -1,41 +1,5 @@
 #%RAML 1.0
 title: New API
-/deleteprod:
-  delete:
-    body:
-      application/json:
-        type: object
-    responses:
-      "200":
-        description: "Deleted the prod "
-    queryParameters:
-      id?:
-        example: Example
-        type: string
-      retailItemId?:
-        example: Example
-        type: string
-/postprod:
-  post:
-    responses:
-      "200":
-        description: Added the sample prod
-        body:
-          application/json:
-            type: SAMPLE-DATA
-    body:
-      application/json:
-        type: SAMPLE-DATA
-/getallprod:
-  get:
-    responses:
-      "200":
-        description: Successful retrieved sample data
-        body:
-          application/json:
-            items:
-              type: SAMPLE-DATA
-    securedBy: []
 types:
   SAMPLE-DATA:
     description: "Sample data "
@@ -45,15 +9,101 @@ types:
         GTINS: 8718906757066
         description: ggi
     type: object
-/getspecificproduct:
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/836b1a9d-460b-4c80-89eb-7953707ba1ed/
+/products:
+  get:
+    displayName: Get all products
+    description: Get all products if Query parametrs are Null
+    queryParameters:
+      desc:
+        example: Example
+        type: string
+      gtins:
+        example: 1
+        type: number
+        format: int
+      givendate:
+        example: Example
+        type: string
+    responses:
+      "200":
+        description: Get method with Qparam
+        body:
+          application/json:
+            type: SAMPLE-DATA
+    securedBy: []
   post:
+    displayName: Add a Product
+    description: Add a Product
     body:
       application/json:
         type: SAMPLE-DATA
     responses:
       "200":
-        description: Method to Get details of a specific product.
+        description: Add a Product
         body:
           application/json:
             type: SAMPLE-DATA
+/product/{id}:
+  get:
+    displayName: Get product by passing id in URI
+    responses:
+      "200":
+        body:
+          application/json:
+            type: SAMPLE-DATA
+    securedBy: []
+  delete:
+    displayName: Delete Product with id in URI
+    description: Delete Product with id in URI
+    responses:
+      "200":
+        description: Successfully deleted the Product
+        body:
+          application/json:
+            example: deleted successfully by example
+            type: string
+    securedBy: []
+  uriParameters:
+    id:
+      example: Example
+      type: string
+/stores:
+  get:
+    displayName: Find store details for a specific Product
+    queryParameters:
+      product?:
+        example: productname
+        type: string
+    body: {}
+    responses:
+      "200":
+        description: Find stores for a specific product.
+        body:
+          application/json:
+            type: SAMPLE-DATA
+            example:
+              strict: true
+              value:
+                StoreID: 1
+                Store name: Vinayaka store
+    securedBy: []
+/stores/products:
+  get:
+    queryParameters:
+      store?:
+        example: storename
+        type: string
+    body: {}
+    responses:
+      "200":
+        description: Products available in a Store
+        body:
+          application/json:
+            type: SAMPLE-DATA
+            example:
+              strict: true
+              value:
+                pdt id: 101
+                description: Maggi
     securedBy: []
